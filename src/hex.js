@@ -334,7 +334,7 @@ HEX.Edge.prototype = {
 		if (!bias || this.hex.valueOf() === next.hex.valueOf()) {
 			if (HEX.inc(this.direction) === next.direction) return this.end_point(bias);
 			else return this.start_point(bias); // clockwise
-		} else if (next.valueOf() === next_out().valueOf()) {
+		} else if (next.valueOf() === next.next_out().valueOf()) {
 			var p = this._corner_offset(this.hex.centre(), HEX.add(this.direction, 2));
 			return this._corner_offset(p, this.direction, bias);
 		} else // clockwise
@@ -498,9 +498,9 @@ HEX.Area.prototype = {
 		var result = [];
 		for (var h = 0, len = this.hexes.length; h < len; ++h) {
 			var edges = [];
-			edges.push(this.hexes[h].edge(A));
-			edges.push(this.hexes[h].edge(B));
-			edges.push(this.hexes[h].edge(C));
+			for (var d = 0; d < HEX.DIRECTIONS.length; ++d) {
+				edges.push(this.hexes[h].edge(d));
+			}
 			result.push(new HEX.Boundary(edges));
 		}
 		if (include_boundary) result.push(this.boundary());
@@ -736,7 +736,7 @@ HEX.Boundary.prototype = {
 	 *  It is an error to call this function when is_closed()==false */
 	area: function () {
 		if (!this.is_closed()) {
-			alert('It is an error to call HEX.Boundary.area() when the boundary' + ' is not open.');
+			alert('It is an error to call HEX.Boundary.area() when the boundary is not open.');
 		}
 		var beyond = [];
 		var queue = [];
@@ -885,9 +885,6 @@ HEX.range = function (h, distance) {
 		result.push(h);
 	} else {
 		var hex = new HEX.Hex(h);
-
-		HEX.go(hex, HEX.A, distance); // in/out: hex
-		result.push(new HEX.Hex(hex));
 
 		for (var d = 0; d < HEX.DIRECTIONS.length; ++d) {
 			var direction = HEX.add(HEX.C, d);
@@ -1087,7 +1084,7 @@ HEX.areas = function (s) {
 }
 
 
-/** TRUE iff s is connected.
+/** TRUE if s is connected.
  *
  *  @param s  Sorted set of unique HEX.Hex objects.
  *  @return   bool
