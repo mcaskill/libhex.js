@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+	<head>
+
+		<meta charset="utf-8" />
+
+		<title>Hex</title>
+
+		<style type="text/css">
+		html {
+			background: #999;
+		}
+
+		svg {
+			display: block;
+		}
+
+		#canvas {
+			width:		500px;
+			margin:		0 auto;
+			border:		5px solid #fff;
+			background:	#2C53B0;
+		}
+		</style>
+
+	</head>
+	<body>
+
+		<div id="canvas"></div>
+
+		<script type="text/javascript" src="../src/hex.js"></script>
+		<script type="text/javascript" src="vendor/raphael-min.js"></script>
+		<script type="text/javascript" src="assets/raphael.plugins.js"></script>
+		<script type="text/javascript">
+		var canvas = new Raphael(document.getElementById('canvas'), 500, 500);
+		</script>
+
+	</body>
+</html>
