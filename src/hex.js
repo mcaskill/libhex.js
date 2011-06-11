@@ -1,24 +1,25 @@
-/*                            Package   : libhex
- * hex.js                     Created   : 2007/12/02
- *                            Author    : Alex Tingle
+/*		Package   : libhex
+ * hex.js	Created   : 2007/12/02
+ *		Modified  : 2011/06/10
+ *		Author    : Alex Tingle, Chauncey McAskill
  *
- *    Copyright (C) 2007-2008, Alex Tingle.
+ *	Copyright (C) 2007-2008, Alex Tingle.
  *
- *    This file is part of the libhex application.
+ *	This file is part of the libhex application.
  *
- *    libhex is free software; you can redistribute it and/or
- *    modify it under the terms of the GNU Lesser General Public
- *    License as published by the Free Software Foundation; either
- *    version 2.1 of the License, or (at your option) any later version.
+ *	libhex is free software; you can redistribute it and/or
+ *	modify it under the terms of the GNU Lesser General Public
+ *	License as published by the Free Software Foundation; either
+ *	version 2.1 of the License, or (at your option) any later version.
  *
- *    libhex is distributed in the hope that it will be useful,
- *    but WITHOUT ANY WARRANTY; without even the implied warranty of
- *    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
- *    Lesser General Public License for more details.
+ *	libhex is distributed in the hope that it will be useful,
+ *	but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *	MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+ *	Lesser General Public License for more details.
  *
- *    You should have received a copy of the GNU Lesser General Public
- *    License along with this library; if not, write to the Free Software
- *    Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
+ *	You should have received a copy of the GNU Lesser General Public
+ *	License along with this library; if not, write to the Free Software
+ *	Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307  USA
  */
 
 var HEX = {};
@@ -875,16 +876,26 @@ HEX.distance = function (from, to) {
  *  The result may NOT be a valid Area, since it may be cut into several
  *  pieces by the edge of the grid.
  *
- *  @param h         object of type HEX.Hex
- *  @param distance  integer range (in hexes)
- *  @return          Sorted Array of unique HEX.Hex objects
+ *  @param h		object of type HEX.Hex
+ *  @param distance	integer range (in hexes)
+ *  @param fill		fill the range with hexes
+ *  @return		Sorted Array of unique HEX.Hex objects
  */
-HEX.range = function (h, distance) {
+HEX.range = function (h, distance, fill) {
 	var result = [];
-	if (distance < 1) {
+
+	if (fill) {
+		for (var d = 0; d <= distance; ++d) {
+			result = result.concat(HEX.range(h, d, false));
+		}
+
+	} else if (distance < 1 || isNaN(distance)) {
 		result.push(h);
+
 	} else {
 		var hex = new HEX.Hex(h);
+
+		HEX.go(hex, HEX.A, distance); // in/out: hex
 
 		for (var d = 0; d < HEX.DIRECTIONS.length; ++d) {
 			var direction = HEX.add(HEX.C, d);
