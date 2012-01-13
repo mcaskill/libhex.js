@@ -357,10 +357,10 @@ HEX.Edge.prototype = {
 /** Hex location class.
  *
  *  Possible constructors:
- *    new HEX.Hex(i,j)            - i,j are hex's I & J indeces.
- *    new HEX.Hex(hex)            - copy contructor
- *    new HEX.Hex(new Point(x,y)) - x,y are cartesian coordinates
- *    new HEX.Hex(str)            - str is a string like '2_5'
+ *    new HEX.Hex(i,j)                - i,j are hex's I & J indeces.
+ *    new HEX.Hex(hex)                - copy contructor
+ *    new HEX.Hex(new HEX.Point(x,y)) - x,y are cartesian coordinates
+ *    new HEX.Hex(str)                - str is a string like '2_5'
  */
 HEX.Hex = function (a, b) {
 	if (typeof a === 'string') {

@@ -32,7 +32,27 @@
 		<script type="text/javascript" src="vendor/raphael-min.js"></script>
 		<script type="text/javascript" src="assets/raphael.plugins.js"></script>
 		<script type="text/javascript">
-		var canvas = new Raphael(document.getElementById('canvas'), 500, 500);
+		var canvas = new Raphael(document.getElementById('canvas'), 500, 500)
+		,   hexes = canvas.set()
+		,   guides = canvas.set();
+
+		guides.push( canvas.path('M0,250 L500,250'), canvas.path('M250,0 L250,500') ).attr({ stroke: '#182D5E' });
+
+		var hexes_1 = HEX.range(new HEX.Hex(new HEX.Point(250,250)), 2, true);
+		//console.log('hexes_1', hexes_1);
+
+		var area_1 = new HEX.Area(hexes_1);
+		//console.log('area_1.hexes', area_1.hexes);
+
+		var skeleton = area_1.skeleton(true);
+		//console.log('skeleton', skeleton);
+
+		for ( var s in skeleton ) hexes.push(canvas.path( canvas.toPathString(skeleton[s].stroke(), true) ));
+
+		var c = hexes.getCenter();
+		hexes.attr({ stroke: '#fff' }).scale(50,50, c.x,c.y);
+		hexes[19].attr({ stroke: '#ED001E', 'stroke-width': 1 });
+
 		</script>
 
 	</body>

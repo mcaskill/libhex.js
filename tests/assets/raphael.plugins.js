@@ -6,10 +6,10 @@ Raphael.fn.toPathString = function (points, closed) {
 	var path = 'M';
 
 	for (var p = 0; p < points.length; p++) {
-		path += (p > 0 ? 'L' : '') + points[p].x +' '+ points[p].y;
+		path += (p > 0 ? ' L' : '') + points[p].x +','+ points[p].y;
 	}
 
-	return path + (closed ? 'z' : '');
+	return path + (closed ? ' Z' : '');
 }
 
 Raphael.st.getCenter = Raphael.el.getCenter = function () {
